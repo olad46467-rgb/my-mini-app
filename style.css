@@ -1,41 +1,93 @@
 * {
     box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #f2f4f7;
-    color: #222;
+    background: #101820;
+    color: white;
+    user-select: none;
+    overflow: hidden;
 }
 
-.app {
+.game {
+    width: 100%;
     max-width: 500px;
-    margin: auto;
     min-height: 100vh;
-    padding: 50px 20px;
+    margin: auto;
+    padding: 25px 15px;
     text-align: center;
 }
 
-.logo {
-    font-size: 70px;
+h1 {
+    margin: 10px 0 5px;
+    font-size: 30px;
+}
+
+#playerName {
+    margin: 0 0 20px;
+    color: #aab4c0;
+}
+
+.stats {
+    display: flex;
+    gap: 10px;
     margin-bottom: 15px;
 }
 
-h1 {
-    margin-bottom: 10px;
-}
-
-p {
-    color: #666;
-}
-
-button {
-    width: 100%;
-    padding: 15px;
-    margin: 25px 0;
-    border: none;
+.stats div {
+    flex: 1;
+    background: #1d2935;
     border-radius: 12px;
+    padding: 10px;
+}
+
+.stats span {
+    display: block;
+    font-size: 12px;
+    color: #9ca8b5;
+}
+
+.stats strong {
+    display: block;
+    font-size: 24px;
+    margin-top: 4px;
+}
+
+#gameArea {
+    position: relative;
+    height: 430px;
+    background: #17232e;
+    border: 2px solid #293b4a;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+#coin {
+    position: absolute;
+    width: 75px;
+    height: 75px;
+    border: none;
+    border-radius: 50%;
+    background: #ffd43b;
+    font-size: 42px;
+    cursor: pointer;
+    display: none;
+    box-shadow: 0 5px 20px rgba(255, 212, 59, 0.4);
+}
+
+#coin:active {
+    transform: scale(0.9);
+}
+
+#startButton {
+    width: 100%;
+    margin-top: 18px;
+    padding: 16px;
+    border: none;
+    border-radius: 14px;
     background: #229ed9;
     color: white;
     font-size: 18px;
@@ -43,17 +95,7 @@ button {
     cursor: pointer;
 }
 
-button:active {
-    transform: scale(0.98);
-}
-
-.card {
-    background: white;
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-}
-
-.card h2 {
-    margin-top: 0;
+#message {
+    color: #aab4c0;
+    font-size: 14px;
 }
