@@ -1,122 +1,88 @@
-const tg = window.Telegram.WebApp;
+const tg = window.Telegram?.WebApp;
+
+/*
+ * Telegram-only access
+ */
+if (!tg || !tg.initData) {
+    document.body.innerHTML = `
+        <div style="
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            text-align:center;
+            padding:30px;
+            margin:0;
+            background:#101820;
+            color:white;
+            font-family:Arial,sans-serif;
+        ">
+            <div style="max-width:420px;">
+                <div style="font-size:64px;margin-bottom:15px;">🎮</div>
+
+                <h2 style="
+                    margin:0 0 12px;
+                    font-size:24px;
+                ">
+                    Game available on Telegram
+                </h2>
+
+                <p style="
+                    color:#c5d0d8;
+                    font-size:16px;
+                    line-height:1.5;
+                    margin:8px 0;
+                ">
+                    This game can only be played inside Telegram.
+                </p>
+
+                <p style="
+                    color:#c5d0d8;
+                    font-size:15px;
+                    line-height:1.5;
+                ">
+                    Open it from our Telegram bot to start playing! 🚀
+                </p>
+            </div>
+        </div>
+    `;
+
+    throw new Error("Telegram Mini App required");
+}
 
 tg.ready();
 tg.expand();
 
-let score = 0;
-let timeLeft = 30;
-let gameRunning = false;
-let timer;
 
-// Get Telegram user
+/*
+ * Telegram user
+ */
 const user = tg.initDataUnsafe?.user;
 
-if (user) {
-    document.getElementById("playerName").textContent =
-        `👋 ${user.first_name}`;
-}
+const userInfo =
+    document.getElementById("userInfo");
 
-// Load best score
-let bestScore = Number(localStorage.getItem("bestScore")) || 0;
-document.getElementById("best").textContent = bestScore;
+if (userInfo) {
 
-const coin = document.getElementById("coin");
-const gameArea = document.getElementById("gameArea");
-const scoreDisplay = document.getElementById("score");
-const timeDisplay = document.getElementById("time");
-const message = document.getElementById("message");
-const startButton = document.getElementById("startButton");
+    if (user) {
 
-function startGame() {
-
-    if (gameRunning) return;
-
-    score = 0;
-    timeLeft = 30;
-    gameRunning = true;
-
-    scoreDisplay.textContent = score;
-    timeDisplay.textContent = timeLeft;
-
-    message.textContent = "🎯 Tap the coin as fast as you can!";
-
-    startButton.disabled = true;
-    startButton.textContent = "🎮 GAME RUNNING...";
-
-    coin.style.display = "block";
-
-    moveCoin();
-
-    timer = setInterval(() => {
-
-        timeLeft--;
-
-        timeDisplay.textContent = timeLeft;
-
-        if (timeLeft <= 0) {
-            endGame();
-        }
-
-    }, 1000);
-}
-
-function tapCoin() {
-
-    if (!gameRunning) return;
-
-    score++;
-
-    scoreDisplay.textContent = score;
-
-    moveCoin();
-}
-
-function moveCoin() {
-
-    const areaWidth = gameArea.clientWidth;
-    const areaHeight = gameArea.clientHeight;
-
-    const coinSize = 75;
-
-    const maxX = areaWidth - coinSize;
-    const maxY = areaHeight - coinSize;
-
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
-
-    coin.style.left = `${randomX}px`;
-    coin.style.top = `${randomY}px`;
-}
-
-function endGame() {
-
-    gameRunning = false;
-
-    clearInterval(timer);
-
-    coin.style.display = "none";
-
-    startButton.disabled = false;
-    startButton.textContent = "🔄 PLAY AGAIN";
-
-    if (score > bestScore) {
-
-        bestScore = score;
-
-        localStorage.setItem(
-            "bestScore",
-            bestScore
-        );
-
-        document.getElementById("best").textContent =
-            bestScore;
-
-        message.textContent =
-            `🏆 NEW RECORD! You scored ${score} points!`;
+        userInfo.textContent =
+            `Hello ${user.first_name}! Your Mini App is working.`;
 
     } else {
 
-        message.textContent =
-            `🎉 Game Over! You scored ${score} points!`;
+        userInfo.textContent =
+            "Welcome to your Telegram Mini App!";
     }
+}
+
+
+/*
+ * Start button
+ */
+function startApp() {
+
+    tg.showAlert(
+        "🚀 Your Mini App is working!"
+    );
 }
